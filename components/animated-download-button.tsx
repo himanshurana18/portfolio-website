@@ -1,45 +1,49 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Download, FileText, Sparkles, Check } from "lucide-react"
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Download, FileText, Sparkles, Check } from "lucide-react";
 
 export function AnimatedDownloadButton() {
-  const [isDownloading, setIsDownloading] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
-  const [isMounted, setIsMounted] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   const handleDownload = async () => {
-    if (!isMounted || typeof window === "undefined") return
+    if (!isMounted || typeof window === "undefined") return;
 
-    setIsDownloading(true)
+    setIsDownloading(true);
 
     setTimeout(() => {
-      setIsDownloading(false)
-      setIsComplete(true)
+      setIsDownloading(false);
+      setIsComplete(true);
 
       setTimeout(() => {
-        setIsComplete(false)
-      }, 2000)
+        setIsComplete(false);
+      }, 2000);
 
-      const link = document.createElement("a")
-      link.href = "/resume.pdf"
-      link.download = "Himanshu_Rana_Resume.pdf"
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    }, 2000)
-  }
+      const link = document.createElement("a");
+      link.href = "/resume.pdf";
+      link.download = "Himanshu_Rana_Resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 2000);
+  };
 
-  if (!isMounted) return null
+  if (!isMounted) return null;
 
   return (
-    <motion.div className="relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+    <motion.div
+      className="relative"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
       <Button
         onClick={handleDownload}
         disabled={isDownloading}
@@ -55,7 +59,10 @@ export function AnimatedDownloadButton() {
         <div className="relative z-10 flex items-center gap-2">
           <motion.div
             animate={isDownloading ? { rotate: 360 } : { rotate: 0 }}
-            transition={{ duration: 0.5, repeat: isDownloading ? Number.POSITIVE_INFINITY : 0 }}
+            transition={{
+              duration: 0.5,
+              repeat: isDownloading ? Number.POSITIVE_INFINITY : 0,
+            }}
           >
             {isComplete ? (
               <Check className="w-5 h-5" />
@@ -63,14 +70,24 @@ export function AnimatedDownloadButton() {
               <motion.div
                 className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                transition={{
+                  duration: 1,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
               />
             ) : (
               <Download className="w-5 h-5" />
             )}
           </motion.div>
 
-          <span>{isComplete ? "Downloaded!" : isDownloading ? "Downloading..." : "Download Resume"}</span>
+          <span>
+            {isComplete
+              ? "Downloaded!"
+              : isDownloading
+              ? "Downloading..."
+              : "Download Resume"}
+          </span>
 
           {!isDownloading && !isComplete && (
             <>
@@ -153,5 +170,5 @@ export function AnimatedDownloadButton() {
         transition={{ duration: 0.3 }}
       />
     </motion.div>
-  )
+  );
 }
